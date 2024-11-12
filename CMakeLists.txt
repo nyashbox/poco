@@ -164,6 +164,7 @@ option(ENABLE_JSON "Enable JSON" ON)
 option(ENABLE_MONGODB "Enable MongoDB" ON)
 option(ENABLE_DATA_SQLITE "Enable Data SQlite" ON)
 option(ENABLE_REDIS "Enable Redis" ON)
+option(ENABLE_AMQP "Enable AMQP" ON)
 option(ENABLE_DNSSD "Enable DNSSD" OFF)
 option(ENABLE_DNSSD_DEFAULT "Enable DNSSD Default" OFF)
 
@@ -280,7 +281,7 @@ if(ENABLE_PAGECOMPILER)
 	set(ENABLE_UTIL ON CACHE BOOL "Enable Util" FORCE)
 endif()
 
-if(ENABLE_MONGODB OR ENABLE_REDIS OR ENABLE_PROMETHEUS)
+if(ENABLE_MONGODB OR ENABLE_REDIS OR ENABLE_PROMETHEUS OR ENABLE_AMQP)
 	set(ENABLE_NET ON CACHE BOOL "Enable Net" FORCE)
 endif()
 
@@ -380,6 +381,11 @@ endif()
 if(EXISTS ${PROJECT_SOURCE_DIR}/Redis AND ENABLE_REDIS)
 	add_subdirectory(Redis)
 	list(APPEND Poco_COMPONENTS "Redis")
+endif()
+
+if(ENABLE_AMQP)
+    add_subdirectory(AMQP)
+    list(APPEND Poco_COMPONENTS "AMQP")
 endif()
 
 if(ENABLE_DNSSD)
