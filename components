@@ -22,6 +22,7 @@ PDF
 CppParser
 MongoDB
 Redis
+AMQP
 Prometheus
 ActiveRecord
 ActiveRecord/Compiler
