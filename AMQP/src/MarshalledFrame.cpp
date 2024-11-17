@@ -24,6 +24,9 @@ MarshalledFrame::MarshalledFrame(uint8_t type, uint16_t channel,
   setType(type);
   setChannel(channel);
   setSize(size);
+
+  // Frame end
+  _data[size + HEADER_SIZE] = static_cast<std::byte>(FRAME_END);
 };
 
 MarshalledFrame::MarshalledFrame(MarshalledFrame &&other) noexcept
