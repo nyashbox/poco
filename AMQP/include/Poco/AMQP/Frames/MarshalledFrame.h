@@ -1,8 +1,7 @@
 #ifndef AMQP_MarshalledFrame_INCLUDED
 #define AMQP_MarshalledFrame_INCLUDED
 
-#include <cstddef>
-#include <cstdint>
+#include "Poco/AMQP/Types.h"
 
 #include <memory>
 
@@ -11,8 +10,8 @@ namespace AMQP {
 
 class MarshalledFrame {
 public:
-  MarshalledFrame(uint32_t size = 0);
-  MarshalledFrame(uint8_t type, uint16_t channel, uint32_t size);
+  MarshalledFrame(AMQP::Long size = 0);
+  MarshalledFrame(AMQP::Octet type, AMQP::Short channel, AMQP::Long size);
 
   MarshalledFrame(const MarshalledFrame &other) = delete;
   MarshalledFrame &operator=(MarshalledFrame &other) = delete;
@@ -22,22 +21,22 @@ public:
 
   ~MarshalledFrame() = default;
 
-  void setChannel(const uint16_t channel);
-  void setType(const uint8_t type);
-  void setSize(const uint32_t size);
+  void setChannel(const AMQP::Short channel);
+  void setType(const AMQP::Octet type);
+  void setSize(const AMQP::Long size);
 
-  uint16_t getChannel(void) const;
-  uint8_t getType(void) const;
-  uint32_t getSize(void) const;
+  AMQP::Short getChannel(void) const;
+  AMQP::Octet getType(void) const;
+  AMQP::Long getSize(void) const;
 
   std::byte *getData(void) const;
   std::byte *getPayload(void) const;
-  size_t getFrameSize(void) const;
+  AMQP::Long getFrameSize(void) const;
 
 protected:
 private:
   std::unique_ptr<std::byte[]> _data;
-  size_t _frameSize;
+  AMQP::Long _frameSize;
 };
 
 } // namespace AMQP
