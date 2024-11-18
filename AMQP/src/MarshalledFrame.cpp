@@ -9,7 +9,8 @@ constexpr size_t SIZE_OFFSET = 0x03;
 constexpr size_t HEADER_SIZE = 0x07;
 constexpr uint8_t FRAME_END = 0xCE;
 
-using Poco::AMQP::MarshalledFrame;
+namespace Poco {
+namespace AMQP {
 
 MarshalledFrame::MarshalledFrame(uint32_t size)
     : MarshalledFrame(0x00, 0, size) {};
@@ -93,3 +94,6 @@ std::byte *MarshalledFrame::getData(void) const {
 }
 
 size_t MarshalledFrame::getFrameSize(void) const { return _frameSize; }
+
+} // namespace AMQP
+} // namespace Poco
