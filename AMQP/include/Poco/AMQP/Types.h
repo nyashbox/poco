@@ -1,15 +1,15 @@
 #ifndef AMQP_Types_INCLUDED
 #define AMQP_Types_INCLUDED
 
-#include <stdint.h>
+#include "Poco/Types.h"
 
 namespace Poco {
 namespace AMQP {
 
-using Octet = uint8_t;
-using Short = uint16_t;
-using Long = uint32_t;
-using LongLong = uint64_t;
+using Octet = Poco::UInt8;
+using Short = Poco::UInt16;
+using Long = Poco::UInt32;
+using LongLong = Poco::UInt64;
 
 } // namespace AMQP
 } // namespace Poco
