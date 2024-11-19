@@ -50,29 +50,19 @@ void MarshalledFrameTest::testSetSize(void) {
 void MarshalledFrameTest::testGetChannel(void) {
   std::memcpy(_frame.getData(), marshalledFrameWithChannel, 8);
 
-  uint16_t channel = _frame.getChannel();
-
-  assertEquals(
-      std::memcmp(&marshalledFrameWithChannel[1], &channel, sizeof(channel)),
-      0);
+  assertTrue(_frame.getChannel() == marshalledFrameChannel);
 };
 
 void MarshalledFrameTest::testGetType(void) {
   std::memcpy(_frame.getData(), marshalledFrameWithType, 8);
 
-  uint8_t type = _frame.getType();
-
-  assertEquals(std::memcmp(&marshalledFrameWithType[0], &type, sizeof(type)),
-               0);
+  assertTrue(_frame.getType() == marshalledFrameType);
 };
 
 void MarshalledFrameTest::testGetSize(void) {
   std::memcpy(_frame.getData(), marshalledFrameWithSize, 8);
 
-  uint32_t size = _frame.getSize();
-
-  assertEquals(std::memcmp(&marshalledFrameWithSize[3], &size, sizeof(size)),
-               0);
+  assertTrue(_frame.getSize() == marshalledFrameSize);
 };
 
 void MarshalledFrameTest::setUp() {};
