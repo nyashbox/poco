@@ -6,17 +6,17 @@
 
 #include <cstring>
 
-const uint8_t marshalledFrameWithType[] = {0xFF, 0x00, 0x00, 0x00,
-                                           0x00, 0x00, 0x00, 0x00};
-const uint8_t marshalledFrameType = 0xFF;
+const Poco::AMQP::Octet marshalledFrameWithType[] = {0xAA, 0x00, 0x00, 0x00,
+                                                     0x00, 0x00, 0x00, 0x00};
+const Poco::AMQP::Octet marshalledFrameType = 0xAA;
 
-const uint8_t marshalledFrameWithChannel[] = {0x00, 0xFF, 0xFF, 0x00,
-                                              0x00, 0x00, 0x00, 0x00};
-const uint16_t marshalledFrameChannel = 0xFFFF;
+const Poco::AMQP::Octet marshalledFrameWithChannel[] = {0x00, 0xAA, 0xBB, 0x00,
+                                                        0x00, 0x00, 0x00, 0x00};
+const Poco::AMQP::Short marshalledFrameChannel = 0xAABB;
 
-const uint8_t marshalledFrameWithSize[] = {0x00, 0x00, 0x00, 0xFF,
-                                           0xFF, 0xFF, 0xFF, 0x00};
-const uint32_t marshalledFrameSize = 0xFFFFFFFF;
+const Poco::AMQP::Octet marshalledFrameWithSize[] = {0x00, 0x00, 0x00, 0xAA,
+                                                     0xBB, 0xCC, 0xDD, 0x00};
+const Poco::AMQP::Long marshalledFrameSize = 0xAABBCCDD;
 
 MarshalledFrameTest::MarshalledFrameTest(const std::string &name)
     : CppUnit::TestCase(name) {}
