@@ -21,7 +21,7 @@ MarshalledFrame::MarshalledFrame(AMQP::Octet type, AMQP::Short channel,
                                  AMQP::Long size) {
   // Allocate frame memory
   _frameSize = size + HEADER_SIZE + sizeof(FRAME_END);
-  _data = std::make_unique<std::byte[]>(_frameSize);
+  _data = std::make_unique<AMQP::Octet[]>(_frameSize);
 
   // Set frame data
   setType(type);
@@ -29,7 +29,7 @@ MarshalledFrame::MarshalledFrame(AMQP::Octet type, AMQP::Short channel,
   setSize(size);
 
   // Frame end
-  _data[size + HEADER_SIZE] = static_cast<std::byte>(FRAME_END);
+  _data[size + HEADER_SIZE] = FRAME_END;
 };
 
 MarshalledFrame::MarshalledFrame(MarshalledFrame &&other) noexcept
@@ -57,41 +57,37 @@ void MarshalledFrame::setSize(const AMQP::Long size) {
 }
 
 AMQP::Short MarshalledFrame::getChannel(void) const {
-  std::byte *channel = &_data[CHANNEL_OFFSET];
+  AMQP::Octet *channel = &_data[CHANNEL_OFFSET];
 
-  AMQP::Short ret = static_cast<AMQP::Octet>(channel[0]) << 0 |
-                    static_cast<AMQP::Octet>(channel[1]) << 8;
+  AMQP::Short ret = channel[0] << 0 | channel[1] << 8;
 
   return ret;
 }
 
 AMQP::Octet MarshalledFrame::getType(void) const {
-  std::byte *type = &_data[TYPE_OFFSET];
+  AMQP::Octet *type = &_data[TYPE_OFFSET];
 
-  AMQP::Octet ret = static_cast<AMQP::Octet>(type[0]) << 0;
+  AMQP::Octet ret = type[0];
 
   return ret;
 }
 
 AMQP::Long MarshalledFrame::getSize(void) const {
-  std::byte *size = &_data[SIZE_OFFSET];
+  AMQP::Octet *size = &_data[SIZE_OFFSET];
 
-  AMQP::Long ret = static_cast<AMQP::Octet>(size[0]) << 0 |
-                   static_cast<AMQP::Octet>(size[1]) << 8 |
-                   static_cast<AMQP::Octet>(size[2]) << 16 |
-                   static_cast<AMQP::Octet>(size[3]) << 24;
+  AMQP::Long ret = size[0] << 0 | size[1] << 8 | size[2] << 16 | size[3] << 24;
 
   return ret;
 }
 
-std::byte *MarshalledFrame::getPayload(void) const {
+AMQP::Octet *MarshalledFrame::getPayload(void) const {
   auto framePointer = _data.get();
 
   return &framePointer[HEADER_SIZE];
 }
 
-std::byte *MarshalledFrame::getData(void) const {
-  std::byte *framePointer = _data.get();
+AMQP::Octet *MarshalledFrame::getData(void) const {
+  AMQP::Octet *framePointer = _data.get();
 
   return framePointer;
 }
