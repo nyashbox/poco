@@ -1,5 +1,6 @@
 #include "Poco/AMQP/Frames/MarshalledFrame.h"
 #include "Poco/AMQP/Types.h"
+#include "Poco/ByteOrder.h"
 
 #include <cstring>
 #include <memory>
@@ -45,21 +46,35 @@ MarshalledFrame &MarshalledFrame::operator=(MarshalledFrame &&other) noexcept {
 };
 
 void MarshalledFrame::setChannel(const AMQP::Short channel) {
-  std::memcpy(&_data[CHANNEL_OFFSET], &channel, sizeof(channel));
+  AMQP::Octet *channelPtr = &_data[CHANNEL_OFFSET];
+
+  AMQP::Short convertedChannel = Poco::ByteOrder::toNetwork(channel);
+
+  std::memcpy(channelPtr, &convertedChannel, sizeof(channel));
 }
 
 void MarshalledFrame::setType(const AMQP::Octet type) {
-  std::memcpy(&_data[TYPE_OFFSET], &type, sizeof(type));
+  AMQP::Octet *typePtr = &_data[TYPE_OFFSET];
+
+  *typePtr = type;
 }
 
 void MarshalledFrame::setSize(const AMQP::Long size) {
-  std::memcpy(&_data[SIZE_OFFSET], &size, sizeof(size));
+  AMQP::Octet *sizePtr = &_data[SIZE_OFFSET];
+
+  AMQP::Long convertedSize = Poco::ByteOrder::toNetwork(size);
+
+  std::memcpy(sizePtr, &convertedSize, sizeof(size));
 }
 
 AMQP::Short MarshalledFrame::getChannel(void) const {
   AMQP::Octet *channel = &_data[CHANNEL_OFFSET];
 
+#if POCO_ARCH_LITTLE_ENDIAN
+  AMQP::Short ret = channel[1] << 0 | channel[0] << 8;
+#else
   AMQP::Short ret = channel[0] << 0 | channel[1] << 8;
+#endif
 
   return ret;
 }
@@ -75,13 +90,17 @@ AMQP::Octet MarshalledFrame::getType(void) const {
 AMQP::Long MarshalledFrame::getSize(void) const {
   AMQP::Octet *size = &_data[SIZE_OFFSET];
 
+#if POCO_ARCH_LITTLE_ENDIAN
+  AMQP::Long ret = size[3] << 0 | size[2] << 8 | size[1] << 16 | size[0] << 24;
+#else
   AMQP::Long ret = size[0] << 0 | size[1] << 8 | size[2] << 16 | size[3] << 24;
+#endif
 
   return ret;
 }
 
 AMQP::Octet *MarshalledFrame::getPayload(void) const {
-  auto framePointer = _data.get();
+  AMQP::Octet *framePointer = _data.get();
 
   return &framePointer[HEADER_SIZE];
 }
