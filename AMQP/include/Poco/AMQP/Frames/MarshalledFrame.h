@@ -29,13 +29,13 @@ public:
   AMQP::Octet getType(void) const;
   AMQP::Long getSize(void) const;
 
-  std::byte *getData(void) const;
-  std::byte *getPayload(void) const;
+  AMQP::Octet *getData(void) const;
+  AMQP::Octet *getPayload(void) const;
   AMQP::Long getFrameSize(void) const;
 
 protected:
 private:
-  std::unique_ptr<std::byte[]> _data;
+  std::unique_ptr<AMQP::Octet[]> _data;
   AMQP::Long _frameSize;
 };
 
