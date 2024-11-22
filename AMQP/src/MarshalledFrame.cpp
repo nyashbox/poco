@@ -20,9 +20,7 @@ MarshalledFrame::MarshalledFrame(AMQP::Long size)
 
 MarshalledFrame::MarshalledFrame(AMQP::Octet type, AMQP::Short channel,
                                  AMQP::Long size) {
-  // Allocate frame memory
-  _frameSize = size + HEADER_SIZE + sizeof(FRAME_END);
-  _data = std::make_unique<AMQP::Octet[]>(_frameSize);
+  _data.resize(size + HEADER_SIZE + sizeof(FRAME_END));
 
   // Set frame data
   setType(type);
@@ -34,29 +32,24 @@ MarshalledFrame::MarshalledFrame(AMQP::Octet type, AMQP::Short channel,
 };
 
 MarshalledFrame::MarshalledFrame(MarshalledFrame &&other) noexcept
-    : _data(std::move(other._data)), _frameSize(other._frameSize) {};
+    : _data(std::move(other._data)) {};
 
 MarshalledFrame &MarshalledFrame::operator=(MarshalledFrame &&other) noexcept {
-  if (this != &other) {
-    _frameSize = other._frameSize;
+  if (this != &other)
     _data = std::move(other._data);
-  }
 
   return *this;
 };
 
 void MarshalledFrame::setChannel(const AMQP::Short channel) {
   AMQP::Octet *channelPtr = &_data[CHANNEL_OFFSET];
-
   AMQP::Short convertedChannel = Poco::ByteOrder::toNetwork(channel);
 
   std::memcpy(channelPtr, &convertedChannel, sizeof(channel));
 }
 
 void MarshalledFrame::setType(const AMQP::Octet type) {
-  AMQP::Octet *typePtr = &_data[TYPE_OFFSET];
-
-  *typePtr = type;
+  _data[TYPE_OFFSET] = type;
 }
 
 void MarshalledFrame::setSize(const AMQP::Long size) {
@@ -68,7 +61,7 @@ void MarshalledFrame::setSize(const AMQP::Long size) {
 }
 
 AMQP::Short MarshalledFrame::getChannel(void) const {
-  AMQP::Octet *channel = &_data[CHANNEL_OFFSET];
+  const AMQP::Octet *channel = &_data[CHANNEL_OFFSET];
 
 #if POCO_ARCH_LITTLE_ENDIAN
   AMQP::Short ret = channel[1] << 0 | channel[0] << 8;
@@ -79,16 +72,10 @@ AMQP::Short MarshalledFrame::getChannel(void) const {
   return ret;
 }
 
-AMQP::Octet MarshalledFrame::getType(void) const {
-  AMQP::Octet *type = &_data[TYPE_OFFSET];
-
-  AMQP::Octet ret = type[0];
-
-  return ret;
-}
+AMQP::Octet MarshalledFrame::getType(void) const { return _data[0]; }
 
 AMQP::Long MarshalledFrame::getSize(void) const {
-  AMQP::Octet *size = &_data[SIZE_OFFSET];
+  const AMQP::Octet *size = &_data[SIZE_OFFSET];
 
 #if POCO_ARCH_LITTLE_ENDIAN
   AMQP::Long ret = size[3] << 0 | size[2] << 8 | size[1] << 16 | size[0] << 24;
@@ -99,19 +86,19 @@ AMQP::Long MarshalledFrame::getSize(void) const {
   return ret;
 }
 
-AMQP::Octet *MarshalledFrame::getPayload(void) const {
-  AMQP::Octet *framePointer = _data.get();
-
-  return &framePointer[HEADER_SIZE];
+const AMQP::Octet *MarshalledFrame::getPayload(void) const {
+  return &_data[HEADER_SIZE];
 }
 
-AMQP::Octet *MarshalledFrame::getData(void) const {
-  AMQP::Octet *framePointer = _data.get();
+AMQP::Octet *MarshalledFrame::begin() { return _data.begin(); };
+AMQP::Octet *MarshalledFrame::end() { return _data.end(); };
 
-  return framePointer;
+const AMQP::Octet *MarshalledFrame::cbegin() const { return _data.begin(); };
+const AMQP::Octet *MarshalledFrame::cend() const { return _data.end(); };
+
+AMQP::Long MarshalledFrame::getFrameSize(void) const {
+  return _data.sizeBytes();
 }
-
-AMQP::Long MarshalledFrame::getFrameSize(void) const { return _frameSize; }
 
 } // namespace AMQP
 } // namespace Poco

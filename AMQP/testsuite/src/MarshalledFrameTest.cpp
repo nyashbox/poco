@@ -24,43 +24,43 @@ MarshalledFrameTest::MarshalledFrameTest(const std::string &name)
 MarshalledFrameTest::~MarshalledFrameTest() {}
 
 void MarshalledFrameTest::testSetChannel(void) {
-  std::memset(_frame.getData(), 0x00, 8);
+  std::memset(_frame.begin(), 0x00, 8);
 
   _frame.setChannel(marshalledFrameChannel);
 
-  assertEquals(std::memcmp(_frame.getData(), marshalledFrameWithChannel, 8), 0);
+  assertEquals(std::memcmp(_frame.begin(), marshalledFrameWithChannel, 8), 0);
 };
 
 void MarshalledFrameTest::testSetType(void) {
-  std::memset(_frame.getData(), 0x00, 8);
+  std::memset(_frame.begin(), 0x00, 8);
 
   _frame.setType(marshalledFrameType);
 
-  assertEquals(std::memcmp(_frame.getData(), marshalledFrameWithType, 8), 0);
+  assertEquals(std::memcmp(_frame.begin(), marshalledFrameWithType, 8), 0);
 };
 
 void MarshalledFrameTest::testSetSize(void) {
-  std::memset(_frame.getData(), 0x00, 8);
+  std::memset(_frame.begin(), 0x00, 8);
 
   _frame.setSize(marshalledFrameSize);
 
-  assertEquals(std::memcmp(_frame.getData(), marshalledFrameWithSize, 8), 0);
+  assertEquals(std::memcmp(_frame.begin(), marshalledFrameWithSize, 8), 0);
 };
 
 void MarshalledFrameTest::testGetChannel(void) {
-  std::memcpy(_frame.getData(), marshalledFrameWithChannel, 8);
+  std::memcpy(_frame.begin(), marshalledFrameWithChannel, 8);
 
   assertTrue(_frame.getChannel() == marshalledFrameChannel);
 };
 
 void MarshalledFrameTest::testGetType(void) {
-  std::memcpy(_frame.getData(), marshalledFrameWithType, 8);
+  std::memcpy(_frame.begin(), marshalledFrameWithType, 8);
 
   assertTrue(_frame.getType() == marshalledFrameType);
 };
 
 void MarshalledFrameTest::testGetSize(void) {
-  std::memcpy(_frame.getData(), marshalledFrameWithSize, 8);
+  std::memcpy(_frame.begin(), marshalledFrameWithSize, 8);
 
   assertTrue(_frame.getSize() == marshalledFrameSize);
 };

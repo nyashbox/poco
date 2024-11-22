@@ -2,6 +2,7 @@
 #define AMQP_MarshalledFrame_INCLUDED
 
 #include "Poco/AMQP/Types.h"
+#include "Poco/Buffer.h"
 
 #include <memory>
 
@@ -29,14 +30,18 @@ public:
   AMQP::Octet getType(void) const;
   AMQP::Long getSize(void) const;
 
-  AMQP::Octet *getData(void) const;
-  AMQP::Octet *getPayload(void) const;
+  const AMQP::Octet *getPayload(void) const;
   AMQP::Long getFrameSize(void) const;
+
+  AMQP::Octet *begin();
+  AMQP::Octet *end();
+
+  const AMQP::Octet *cbegin() const;
+  const AMQP::Octet *cend() const;
 
 protected:
 private:
-  std::unique_ptr<AMQP::Octet[]> _data;
-  AMQP::Long _frameSize;
+  Poco::Buffer<AMQP::Octet> _data{0};
 };
 
 } // namespace AMQP
