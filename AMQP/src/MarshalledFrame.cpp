@@ -86,15 +86,25 @@ AMQP::Long MarshalledFrame::getSize(void) const {
   return ret;
 }
 
-const AMQP::Octet *MarshalledFrame::getPayload(void) const {
-  return &_data[HEADER_SIZE];
-}
-
 AMQP::Octet *MarshalledFrame::begin() { return _data.begin(); };
 AMQP::Octet *MarshalledFrame::end() { return _data.end(); };
 
 const AMQP::Octet *MarshalledFrame::cbegin() const { return _data.begin(); };
 const AMQP::Octet *MarshalledFrame::cend() const { return _data.end(); };
+
+AMQP::Octet *MarshalledFrame::pbegin() { return &_data[HEADER_SIZE]; };
+
+AMQP::Octet *MarshalledFrame::pend() {
+  return &_data[HEADER_SIZE] + getSize();
+};
+
+const AMQP::Octet *MarshalledFrame::cpbegin() const {
+  return &_data[HEADER_SIZE];
+};
+
+const AMQP::Octet *MarshalledFrame::cpend() const {
+  return &_data[HEADER_SIZE] + getSize();
+}
 
 AMQP::Long MarshalledFrame::getFrameSize(void) const {
   return _data.sizeBytes();
