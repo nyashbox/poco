@@ -30,7 +30,6 @@ public:
   AMQP::Octet getType(void) const;
   AMQP::Long getSize(void) const;
 
-  const AMQP::Octet *getPayload(void) const;
   AMQP::Long getFrameSize(void) const;
 
   AMQP::Octet *begin();
@@ -38,6 +37,12 @@ public:
 
   const AMQP::Octet *cbegin() const;
   const AMQP::Octet *cend() const;
+
+  AMQP::Octet *pbegin();
+  AMQP::Octet *pend();
+
+  const AMQP::Octet *cpbegin() const;
+  const AMQP::Octet *cpend() const;
 
 protected:
 private:
