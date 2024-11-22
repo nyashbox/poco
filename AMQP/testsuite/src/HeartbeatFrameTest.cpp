@@ -22,7 +22,7 @@ void HeartbeatFrameTest::testFormat() {
 
   MarshalledFrame marshalledFrame = HeartbeatFrame().marshall();
 
-  assertEquals(std::memcmp(testFrame, marshalledFrame.getData(), 1), 0);
+  assertEquals(std::memcmp(testFrame, marshalledFrame.begin(), 1), 0);
 }
 
 void HeartbeatFrameTest::setUp() {};
