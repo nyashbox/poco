@@ -29,8 +29,7 @@ public:
   void marshall(AMQP::Octet *dest) {
     T size = static_cast<T>(_data.sizeBytes());
 
-    if (sizeof(T) > 1)
-      size = Poco::ByteOrder::toNetwork(size);
+	size = Poco::ByteOrder::toNetwork(size);
 
     std::memcpy(dest, &size, sizeof(T));
     std::copy(_data.begin(), _data.end(), dest + sizeof(T));
