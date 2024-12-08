@@ -29,56 +29,103 @@ template <typename T>
 class BaseStr 
 {
 public:
-	BaseStr(const std::string_view string) 
-	{
-		if (string.size() > std::numeric_limits<T>::max())
-		{
-			throw Poco::RuntimeException("Input string too long!");
-		}
+	BaseStr(const std::string_view string);
+	~BaseStr();
 
-		_data.resize(string.size());
-		std::copy(string.begin(), string.end(), _data.begin());
-	}
+	void marshall(AMQP::Octet *dest);
 
+	const Poco::Buffer<AMQP::Octet> &getBuffer(void) const;
+	const AMQP::LongLong getMarshalledSize(void) const;
 
-	~BaseStr() = default;
+	AMQP::Octet *begin();
+	AMQP::Octet *end();
 
-
-	void marshall(AMQP::Octet *dest)
-	{
-		T size = static_cast<T>(_data.sizeBytes());
-
-		size = Poco::ByteOrder::toNetwork(size);
-
-		std::memcpy(dest, &size, sizeof(T));
-		std::copy(_data.begin(), _data.end(), dest + sizeof(T));
-	}
-
-
-	const Poco::Buffer<AMQP::Octet> &getBuffer(void) const 
-	{
-		return _data;
-	}
-
-
-	const AMQP::LongLong getMarshalledSize(void) const 
-	{
-		return sizeof(T) + _data.sizeBytes();
-	}
-
-
-	AMQP::Octet *begin() { return _data.begin(); };
-	AMQP::Octet *end() { return _data.end(); };
-
-
-	const AMQP::Octet *cbegin() { return _data.begin(); };
-	const AMQP::Octet *cend() { return _data.end(); };
+	const AMQP::Octet *cbegin();
+	const AMQP::Octet *cend();
 
 
 protected:
 private:
 	Poco::Buffer<AMQP::Octet> _data{0};
 
+};
+
+
+//
+// inlines
+//
+
+
+template<typename T>
+BaseStr<T>::BaseStr(const std::string_view string)
+{
+	if (string.size() > std::numeric_limits<T>::max())
+	{
+		throw Poco::RuntimeException("Input string too long!");
+	}
+
+	_data.resize(string.size());
+	std::copy(string.begin(), string.end(), _data.begin());
+}
+
+
+template<typename T>
+BaseStr<T>::~BaseStr()
+{
+}
+
+
+template<typename T>
+void BaseStr<T>::marshall(AMQP::Octet *dest)
+{
+	T size = static_cast<T>(_data.sizeBytes());
+
+	size = Poco::ByteOrder::toNetwork(size);
+
+	std::memcpy(dest, &size, sizeof(T));
+	std::copy(_data.begin(), _data.end(), dest + sizeof(T));
+}
+
+
+template<typename T>
+const Poco::Buffer<AMQP::Octet> &BaseStr<T>::getBuffer(void) const 
+{
+	return _data;
+}
+
+
+template<typename T>
+const AMQP::LongLong BaseStr<T>::getMarshalledSize(void) const 
+{
+	return sizeof(T) + _data.sizeBytes();
+}
+
+
+template<typename T>
+AMQP::Octet *BaseStr<T>::begin() 
+{ 
+	return _data.begin(); 
+};
+
+
+template<typename T>
+AMQP::Octet *BaseStr<T>::end() 
+{ 
+	return _data.end(); 
+};
+
+
+template<typename T>
+const AMQP::Octet *BaseStr<T>::cbegin() 
+{ 
+	return _data.begin(); 
+};
+
+
+template<typename T>
+const AMQP::Octet *BaseStr<T>::cend() 
+{ 
+	return _data.end(); 
 };
 
 
