@@ -14,8 +14,8 @@ public:
 	void setUp();
 	void tearDown();
 
-	void testGetMarshalledSize();
-	void testMarshalling();
+	void testShortStr();
+	void testLongStr();
 
 	static CppUnit::Test *suite();
 
