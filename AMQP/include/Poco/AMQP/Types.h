@@ -36,6 +36,10 @@ public:
     std::copy(_data.begin(), _data.end(), dest + sizeof(T));
   }
 
+	const Poco::Buffer<AMQP::Octet> &getBuffer(void) const {
+		return _data;
+	}
+
   const AMQP::LongLong getMarshalledSize(void) const {
     return sizeof(T) + _data.sizeBytes();
   }
