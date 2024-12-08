@@ -96,7 +96,7 @@ const Poco::Buffer<AMQP::Octet> &BaseStr<T>::getBuffer(void) const
 template<typename T>
 const AMQP::LongLong BaseStr<T>::getMarshalledSize(void) const 
 {
-	return sizeof(T) + _data.sizeBytes();
+	return _data.sizeBytes();
 }
 
 
