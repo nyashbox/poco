@@ -32,6 +32,7 @@ void TypesTest::testShortStr() {
 	ShortStr str{"AAAA"};
 
 	str.marshall(buf);
+	assertEquals(str.getMarshalledSize(), marshalledSize);
 	assertEquals(std::memcmp(buf, marshalledString, marshalledSize), 0);
 };
 
@@ -49,6 +50,7 @@ void TypesTest::testLongStr()
 	LongStr str{"AAAA"};
 
 	str.marshall(buf);
+	assertEquals(str.getMarshalledSize(), marshalledSize);
 	assertEquals(std::memcmp(buf, marshalledString, marshalledSize), 0);
 };
 
