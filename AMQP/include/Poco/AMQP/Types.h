@@ -51,6 +51,26 @@ private:
 };
 
 
+class FieldTable final
+{
+	public:
+		FieldTable();
+		~FieldTable();
+
+		template<typename T>
+		void insert(const AMQP::ShortStr &key, const T value);
+
+		const Poco::Buffer<AMQP::Octet> &getBuffer(void) const;
+
+	protected:
+	private:
+		template<typename T>
+		void _insert(const AMQP::ShortStr &key, const T value, const AMQP::Octet type);
+
+		Poco::Buffer<AMQP::Octet> _data{0};
+};
+
+
 //
 // inlines
 //
