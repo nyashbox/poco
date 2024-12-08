@@ -2,7 +2,7 @@
 #define AMQP_FrameBase_INCLUDED
 
 #include "Poco/AMQP/Frames/MarshalledFrame.h"
-#include "Poco/AMQP/Types.h"
+#include "Poco/AMQP/Types/Integers.h"
 
 namespace Poco {
 namespace AMQP {

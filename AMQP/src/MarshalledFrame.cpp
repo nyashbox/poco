@@ -1,9 +1,8 @@
 #include "Poco/AMQP/Frames/MarshalledFrame.h"
-#include "Poco/AMQP/Types.h"
+#include "Poco/AMQP/Types/Integers.h"
 #include "Poco/ByteOrder.h"
 
 #include <cstring>
-#include <memory>
 
 namespace Poco {
 namespace AMQP {

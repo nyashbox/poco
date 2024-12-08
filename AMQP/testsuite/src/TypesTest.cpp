@@ -1,7 +1,8 @@
 #include "CppUnit/TestCaller.h"
 #include "CppUnit/TestCase.h"
 #include "CppUnit/TestSuite.h"
-#include "Poco/AMQP/Types.h"
+#include "Poco/AMQP/Types/FieldTable.h"
+#include "Poco/AMQP/Types/Strings.h"
 #include "TypesTest.h"
 
 

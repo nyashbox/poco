@@ -1,10 +1,8 @@
 #ifndef AMQP_MarshalledFrame_INCLUDED
 #define AMQP_MarshalledFrame_INCLUDED
 
-#include "Poco/AMQP/Types.h"
+#include "Poco/AMQP/Types/Integers.h"
 #include "Poco/Buffer.h"
-
-#include <memory>
 
 namespace Poco {
 namespace AMQP {

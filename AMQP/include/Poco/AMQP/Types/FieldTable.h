@@ -1,43 +1,12 @@
-#ifndef AMQP_Types_INCLUDED
-#define AMQP_Types_INCLUDED
+#ifndef AMQP_Types_FieldTable_INCLUDED
+#define AMQP_Types_FieldTable_INCLUDED
 
 
-#include "Poco/Buffer.h"
-#include "Poco/ByteOrder.h"
-#include "Poco/Exception.h"
-#include "Poco/Types.h"
-#include <limits>
-
+#include "Poco/AMQP/Types/Integers.h"
+#include "Poco/AMQP/Types/Strings.h"
 
 namespace Poco {
 namespace AMQP {
-
-
-template<typename T>
-class BaseStr;
-
-
-using Octet    = Poco::UInt8;
-using Short    = Poco::UInt16;
-using Long     = Poco::UInt32;
-using LongLong = Poco::UInt64;
-using ShortStr = AMQP::BaseStr<Octet>;
-using LongStr  = AMQP::BaseStr<Long>;
-
-
-template <typename T> 
-class BaseStr 
-{
-public:
-	BaseStr(const std::string_view string);
-	~BaseStr();
-
-	const Poco::Buffer<AMQP::Octet> &getBuffer(void) const;
-protected:
-private:
-	Poco::Buffer<AMQP::Octet> _data{0};
-
-};
 
 
 class FieldTable final
@@ -63,36 +32,6 @@ class FieldTable final
 //
 // inlines
 //
-
-
-template<typename T>
-BaseStr<T>::BaseStr(const std::string_view string)
-{
-	if (string.size() > std::numeric_limits<T>::max())
-	{
-		throw Poco::RuntimeException("Input string too long!");
-	}
-
-	_data.setCapacity(string.size()+sizeof(T));
-
-	const T stringSize = Poco::ByteOrder::toNetwork(static_cast<T>(string.size()));
-
-	_data.append(reinterpret_cast<const AMQP::Octet *>(&stringSize), sizeof(T));
-	_data.append(reinterpret_cast<const AMQP::Octet *>(string.data()), string.size());
-}
-
-
-template<typename T>
-BaseStr<T>::~BaseStr()
-{
-}
-
-
-template<typename T>
-const Poco::Buffer<AMQP::Octet> &BaseStr<T>::getBuffer(void) const 
-{
-	return _data;
-}
 
 
 inline FieldTable::FieldTable()
@@ -169,4 +108,4 @@ inline void FieldTable::_insert(const AMQP::ShortStr &key, const T value, const 
 } } // namespace Poco::AMQP
 
 
-#endif // AMQP_Types_INCLUDED
+#endif // AMQP_Types_FieldTable_INCLUDED
