@@ -28,12 +28,12 @@ void TypesTest::testShortStr() {
 		0x04, 0x41, 0x41, 0x41, 0x41
 	};
 
-	Octet buf[marshalledSize];
+	Poco::Buffer<Octet> strbuf { marshalledString, marshalledSize };
+
 	ShortStr str{"AAAA"};
 
-	str.marshall(buf);
 	assertEquals(str.getMarshalledSize(), marshalledSize);
-	assertEquals(std::memcmp(buf, marshalledString, marshalledSize), 0);
+	assertTrue(strbuf == str.getBuffer());
 };
 
 
@@ -46,12 +46,12 @@ void TypesTest::testLongStr()
 		0x41, 0x41, 0x41, 0x41
 	};
 
-	Octet buf[marshalledSize];
+	Poco::Buffer<Octet> strbuf { marshalledString, marshalledSize };
+
 	LongStr str{"AAAA"};
 
-	str.marshall(buf);
 	assertEquals(str.getMarshalledSize(), marshalledSize);
-	assertEquals(std::memcmp(buf, marshalledString, marshalledSize), 0);
+	assertTrue(strbuf == str.getBuffer());
 };
 
 
