@@ -64,8 +64,12 @@ BaseStr<T>::BaseStr(const std::string_view string)
 		throw Poco::RuntimeException("Input string too long!");
 	}
 
-	_data.resize(string.size());
-	std::copy(string.begin(), string.end(), _data.begin());
+	_data.setCapacity(string.size()+sizeof(T));
+
+	const T stringSize = Poco::ByteOrder::toNetwork(static_cast<T>(string.size()));
+
+	_data.append(reinterpret_cast<const AMQP::Octet *>(&stringSize), sizeof(T));
+	_data.append(reinterpret_cast<const AMQP::Octet *>(string.data()), string.size());
 }
 
 
@@ -78,12 +82,7 @@ BaseStr<T>::~BaseStr()
 template<typename T>
 void BaseStr<T>::marshall(AMQP::Octet *dest)
 {
-	T size = static_cast<T>(_data.sizeBytes());
-
-	size = Poco::ByteOrder::toNetwork(size);
-
-	std::memcpy(dest, &size, sizeof(T));
-	std::copy(_data.begin(), _data.end(), dest + sizeof(T));
+	std::memcpy(dest, _data.begin(), _data.sizeBytes());
 }
 
 
