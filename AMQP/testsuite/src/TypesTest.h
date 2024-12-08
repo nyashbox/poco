@@ -16,6 +16,7 @@ public:
 
 	void testShortStr();
 	void testLongStr();
+	void testFieldTable();
 
 	static CppUnit::Test *suite();
 
