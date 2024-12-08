@@ -37,13 +37,6 @@ public:
 	const Poco::Buffer<AMQP::Octet> &getBuffer(void) const;
 	const AMQP::LongLong getMarshalledSize(void) const;
 
-	AMQP::Octet *begin();
-	AMQP::Octet *end();
-
-	const AMQP::Octet *cbegin();
-	const AMQP::Octet *cend();
-
-
 protected:
 private:
 	Poco::Buffer<AMQP::Octet> _data{0};
@@ -118,34 +111,6 @@ const AMQP::LongLong BaseStr<T>::getMarshalledSize(void) const
 {
 	return _data.sizeBytes();
 }
-
-
-template<typename T>
-AMQP::Octet *BaseStr<T>::begin() 
-{ 
-	return _data.begin(); 
-};
-
-
-template<typename T>
-AMQP::Octet *BaseStr<T>::end() 
-{ 
-	return _data.end(); 
-};
-
-
-template<typename T>
-const AMQP::Octet *BaseStr<T>::cbegin() 
-{ 
-	return _data.begin(); 
-};
-
-
-template<typename T>
-const AMQP::Octet *BaseStr<T>::cend() 
-{ 
-	return _data.end(); 
-};
 
 
 inline FieldTable::FieldTable()
