@@ -32,8 +32,6 @@ public:
 	BaseStr(const std::string_view string);
 	~BaseStr();
 
-	void marshall(AMQP::Octet *dest);
-
 	const Poco::Buffer<AMQP::Octet> &getBuffer(void) const;
 	const AMQP::LongLong getMarshalledSize(void) const;
 
@@ -89,13 +87,6 @@ BaseStr<T>::BaseStr(const std::string_view string)
 template<typename T>
 BaseStr<T>::~BaseStr()
 {
-}
-
-
-template<typename T>
-void BaseStr<T>::marshall(AMQP::Octet *dest)
-{
-	std::memcpy(dest, _data.begin(), _data.sizeBytes());
 }
 
 
