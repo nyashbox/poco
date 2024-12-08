@@ -36,7 +36,6 @@ void TypesTest::testShortStr() {
 
 	ShortStr str{"AAAA"};
 
-	assertEquals(str.getMarshalledSize(), marshalledSize);
 	assertTrue(strbuf == str.getBuffer());
 };
 
@@ -54,7 +53,6 @@ void TypesTest::testLongStr()
 
 	LongStr str{"AAAA"};
 
-	assertEquals(str.getMarshalledSize(), marshalledSize);
 	assertTrue(strbuf == str.getBuffer());
 };
 

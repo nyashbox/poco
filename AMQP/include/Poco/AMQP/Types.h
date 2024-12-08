@@ -33,8 +33,6 @@ public:
 	~BaseStr();
 
 	const Poco::Buffer<AMQP::Octet> &getBuffer(void) const;
-	const AMQP::LongLong getMarshalledSize(void) const;
-
 protected:
 private:
 	Poco::Buffer<AMQP::Octet> _data{0};
@@ -94,13 +92,6 @@ template<typename T>
 const Poco::Buffer<AMQP::Octet> &BaseStr<T>::getBuffer(void) const 
 {
 	return _data;
-}
-
-
-template<typename T>
-const AMQP::LongLong BaseStr<T>::getMarshalledSize(void) const 
-{
-	return _data.sizeBytes();
 }
 
 
