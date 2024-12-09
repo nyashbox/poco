@@ -29,10 +29,9 @@ void HeartbeatFrameTest::testFormat()
 		0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xCE
 	};
 	Poco::Buffer<Octet> expectedFrame { testFrame, sizeof(testFrame) };
+	HeartbeatFrame actualFrame;
 
-	MarshalledFrame marshalledFrame = HeartbeatFrame().marshall();
-
-	assertTrue(marshalledFrame.getBuffer() == expectedFrame);
+	assertTrue(actualFrame.getBuffer() == expectedFrame);
 }
 
 
