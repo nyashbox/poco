@@ -38,21 +38,6 @@ MarshalledFrame::MarshalledFrame(AMQP::Octet type, AMQP::Short channel,
 }
 
 
-MarshalledFrame::MarshalledFrame(MarshalledFrame &&other) noexcept
-    : _data(std::move(other._data)) 
-{
-}
-
-
-MarshalledFrame &MarshalledFrame::operator=(MarshalledFrame &&other) noexcept 
-{
-	if (this != &other)
-		_data = std::move(other._data);
-
-	return *this;
-}
-
-
 void MarshalledFrame::setChannel(const AMQP::Short channel) 
 {
 	AMQP::Octet *channelPtr = &_data[CHANNEL_OFFSET];
