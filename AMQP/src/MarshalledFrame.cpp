@@ -38,6 +38,11 @@ MarshalledFrame::MarshalledFrame(AMQP::Octet type, AMQP::Short channel,
 }
 
 
+MarshalledFrame::~MarshalledFrame() 
+{
+}
+
+
 void MarshalledFrame::setChannel(const AMQP::Short channel) 
 {
 	AMQP::Octet *channelPtr = &_data[CHANNEL_OFFSET];

@@ -16,7 +16,7 @@ public:
 	MarshalledFrame(AMQP::Long size = 0);
 	MarshalledFrame(AMQP::Octet type, AMQP::Short channel, AMQP::Long size);
 
-	~MarshalledFrame() = default;
+	~MarshalledFrame();
 
 	void setChannel(const AMQP::Short channel);
 	void setType(const AMQP::Octet type);
