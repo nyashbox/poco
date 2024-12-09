@@ -34,18 +34,6 @@ public:
 
 	AMQP::Long getFrameSize(void) const;
 
-	AMQP::Octet *begin();
-	AMQP::Octet *end();
-
-	const AMQP::Octet *cbegin() const;
-	const AMQP::Octet *cend() const;
-
-	AMQP::Octet *pbegin();
-	AMQP::Octet *pend();
-
-	const AMQP::Octet *cpbegin() const;
-	const AMQP::Octet *cpend() const;
-
 protected:
 private:
 	Poco::Buffer<AMQP::Octet> _data{0};
