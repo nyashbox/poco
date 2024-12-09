@@ -107,4 +107,8 @@ AMQP::Long MarshalledFrame::getFrameSize(void) const
 }
 
 
+const Poco::Buffer<AMQP::Octet> &MarshalledFrame::getBuffer(void) const 
+{
+	return _data;
+}
 } } // namespace Poco::AMQP
