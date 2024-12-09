@@ -115,7 +115,7 @@ const Poco::Buffer<AMQP::Octet> &MarshalledFrame::getBuffer(void) const
 
 Poco::Buffer<AMQP::Octet> MarshalledFrame::getPayloadBuffer(void) const 
 {
-	const AMQP::Octet *payloadPtr = _data.begin() + HEADER_SIZE;
+	AMQP::Octet *payloadPtr = const_cast<AMQP::Octet *>(_data.begin() + HEADER_SIZE);
 	const AMQP::Long payloadSize = _data.sizeBytes() - HEADER_SIZE - 1;
 
 	return Poco::Buffer<AMQP::Octet>(payloadPtr, payloadSize);
