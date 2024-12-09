@@ -1,22 +1,26 @@
-#ifndef AMQP_HeartbeatFrameTest_INCLUDED
-#define AMQP_HeartbeatFrameTest_INCLUDED
+#ifndef HeartbeatFrameTest_INCLUDED
+#define HeartbeatFrameTest_INCLUDED
+
 
 #include "CppUnit/TestCase.h"
 
-class HeartbeatFrameTest : public CppUnit::TestCase {
+
+class HeartbeatFrameTest : public CppUnit::TestCase 
+{
 public:
-  HeartbeatFrameTest(const std::string &name);
-  ~HeartbeatFrameTest();
+	HeartbeatFrameTest(const std::string &name);
+	~HeartbeatFrameTest();
 
-  void testFormat();
+	void testFormat();
 
-  void setUp();
-  void tearDown();
+	void setUp();
+	void tearDown();
 
-  static CppUnit::Test *suite();
+	static CppUnit::Test *suite();
 
 protected:
 private:
 };
 
-#endif // AMQP_HeartbeatFrameTest_INCLUDED
+
+#endif // HeartbeatFrameTest_INCLUDED

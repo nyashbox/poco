@@ -1,11 +1,15 @@
 #ifndef AMQPTestSuite_INCLUDED
 #define AMQPTestSuite_INCLUDED
 
+
 #include "CppUnit/TestSuite.h"
 
-class AMQPTestSuite {
+
+class AMQPTestSuite 
+{
 public:
-  static CppUnit::Test *suite();
+	static CppUnit::Test *suite();
 };
+
 
 #endif // AMQPTestSuite_INCLUDED

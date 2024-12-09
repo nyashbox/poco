@@ -1,23 +1,43 @@
-#ifndef AMQP_HeartbeatFrame_INCLUDED
-#define AMQP_HeartbeatFrame_INCLUDED
+#ifndef AMQP_Frames_HeartbeatFrame_INCLUDED
+#define AMQP_Frames_HeartbeatFrame_INCLUDED
+
 
 #include "Poco/AMQP/Frames/FrameBase.h"
+
 
 namespace Poco {
 namespace AMQP {
 
-class HeartbeatFrame final : public FrameBase {
-public:
-  HeartbeatFrame() = default;
-  ~HeartbeatFrame() = default;
 
-  virtual MarshalledFrame marshall(void) override;
+class HeartbeatFrame final : public FrameBase 
+{
+public:
+	HeartbeatFrame();
+	~HeartbeatFrame();
+
+	virtual MarshalledFrame marshall(void) override;
 
 protected:
 private:
 };
 
-} // namespace AMQP
-} // namespace Poco
 
-#endif // AMQP_HeartbeatFrame_INCLUDED
+//
+// inlines
+//
+
+
+inline HeartbeatFrame::HeartbeatFrame() 
+{
+}
+
+
+inline HeartbeatFrame::~HeartbeatFrame()
+{
+}
+
+
+} } // namespace Poco::AMQP
+
+
+#endif // AMQP_Frames_HeartbeatFrame_INCLUDED

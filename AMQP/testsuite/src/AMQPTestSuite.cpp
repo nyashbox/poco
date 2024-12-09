@@ -4,14 +4,16 @@
 #include "MarshalledFrameTest.h"
 #include "TypesTest.h"
 
-CppUnit::Test *AMQPTestSuite::suite() {
-  CppUnit::TestSuite *pSuite = new CppUnit::TestSuite("AMQPTestSuite");
 
-  pSuite->addTest(AMQPTest::suite());
-  pSuite->addTest(TypesTest::suite());
+CppUnit::Test *AMQPTestSuite::suite() 
+{
+	CppUnit::TestSuite *pSuite = new CppUnit::TestSuite("AMQPTestSuite");
 
-  pSuite->addTest(MarshalledFrameTest::suite());
-  pSuite->addTest(HeartbeatFrameTest::suite());
+	pSuite->addTest(AMQPTest::suite());
+	pSuite->addTest(TypesTest::suite());
 
-  return pSuite;
+	pSuite->addTest(MarshalledFrameTest::suite());
+	pSuite->addTest(HeartbeatFrameTest::suite());
+
+	return pSuite;
 }
