@@ -29,6 +29,8 @@ public:
 	AMQP::Long getFrameSize(void) const;
 
 	const Poco::Buffer<AMQP::Octet> &getBuffer(void) const;
+	Poco::Buffer<AMQP::Octet> getPayloadBuffer(void) const;
+
 protected:
 private:
 	Poco::Buffer<AMQP::Octet> _data{0};
