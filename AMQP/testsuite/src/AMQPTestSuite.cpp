@@ -1,5 +1,4 @@
 #include "AMQPTestSuite.h"
-#include "AMQPTest.h"
 #include "HeartbeatFrameTest.h"
 #include "MarshalledFrameTest.h"
 #include "TypesTest.h"
@@ -9,11 +8,12 @@ CppUnit::Test *AMQPTestSuite::suite()
 {
 	CppUnit::TestSuite *pSuite = new CppUnit::TestSuite("AMQPTestSuite");
 
-	pSuite->addTest(AMQPTest::suite());
-	pSuite->addTest(TypesTest::suite());
-
+	// frames tests
 	pSuite->addTest(MarshalledFrameTest::suite());
 	pSuite->addTest(HeartbeatFrameTest::suite());
+
+	// types tests
+	pSuite->addTest(TypesTest::suite());
 
 	return pSuite;
 }
