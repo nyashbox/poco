@@ -28,10 +28,11 @@ void HeartbeatFrameTest::testFormat()
 	{
 		0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xCE
 	};
+	Poco::Buffer<Octet> expectedFrame { testFrame, sizeof(testFrame) };
 
 	MarshalledFrame marshalledFrame = HeartbeatFrame().marshall();
 
-	assertEquals(std::memcmp(testFrame, marshalledFrame.begin(), 1), 0);
+	assertTrue(marshalledFrame.getBuffer() == expectedFrame);
 }
 
 

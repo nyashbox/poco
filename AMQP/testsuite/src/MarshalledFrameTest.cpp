@@ -42,37 +42,48 @@ MarshalledFrameTest::~MarshalledFrameTest()
 
 void MarshalledFrameTest::testSetChannel(void) 
 {
-	std::memset(_frame.begin(), 0x00, 8);
+	Poco::AMQP::Octet *framePtr = const_cast<Poco::AMQP::Octet*>(_frame.getBuffer().begin());
+	Poco::Buffer<Poco::AMQP::Octet> expectedFrame { marshalledFrameWithChannel, 8 };
+
+	std::memset(framePtr, 0x00, 8);
 
 	_frame.setChannel(marshalledFrameChannel);
 
-	assertEquals(std::memcmp(_frame.begin(), marshalledFrameWithChannel, 8), 0);
+	assertTrue(_frame.getBuffer() == expectedFrame);
 };
 
 
 void MarshalledFrameTest::testSetType(void) 
 {
-	std::memset(_frame.begin(), 0x00, 8);
+	Poco::AMQP::Octet *framePtr = const_cast<Poco::AMQP::Octet*>(_frame.getBuffer().begin());
+	Poco::Buffer<Poco::AMQP::Octet> expectedFrame { marshalledFrameWithType, 8 };
+
+	std::memset(framePtr, 0x00, 8);
 
 	_frame.setType(marshalledFrameType);
 
-	assertEquals(std::memcmp(_frame.begin(), marshalledFrameWithType, 8), 0);
+	assertTrue(_frame.getBuffer() == expectedFrame);
 };
 
 
 void MarshalledFrameTest::testSetSize(void) 
 {
-	std::memset(_frame.begin(), 0x00, 8);
+	Poco::AMQP::Octet *framePtr = const_cast<Poco::AMQP::Octet*>(_frame.getBuffer().begin());
+	Poco::Buffer<Poco::AMQP::Octet> expectedFrame { marshalledFrameWithSize, 8 };
+
+	std::memset(framePtr, 0x00, 8);
 
 	_frame.setSize(marshalledFrameSize);
 
-	assertEquals(std::memcmp(_frame.begin(), marshalledFrameWithSize, 8), 0);
+	assertTrue(_frame.getBuffer() == expectedFrame);
 };
 
 
 void MarshalledFrameTest::testGetChannel(void) 
 {
-	std::memcpy(_frame.begin(), marshalledFrameWithChannel, 8);
+	Poco::AMQP::Octet *framePtr = const_cast<Poco::AMQP::Octet*>(_frame.getBuffer().begin());
+
+	std::memcpy(framePtr, marshalledFrameWithChannel, 8);
 
 	assertTrue(_frame.getChannel() == marshalledFrameChannel);
 };
@@ -80,7 +91,9 @@ void MarshalledFrameTest::testGetChannel(void)
 
 void MarshalledFrameTest::testGetType(void)
 {
-	std::memcpy(_frame.begin(), marshalledFrameWithType, 8);
+	Poco::AMQP::Octet *framePtr = const_cast<Poco::AMQP::Octet*>(_frame.getBuffer().begin());
+
+	std::memcpy(framePtr, marshalledFrameWithType, 8);
 
 	assertTrue(_frame.getType() == marshalledFrameType);
 }
@@ -88,7 +101,9 @@ void MarshalledFrameTest::testGetType(void)
 
 void MarshalledFrameTest::testGetSize(void)
 {
-	std::memcpy(_frame.begin(), marshalledFrameWithSize, 8);
+	Poco::AMQP::Octet *framePtr = const_cast<Poco::AMQP::Octet*>(_frame.getBuffer().begin());
+
+	std::memcpy(framePtr, marshalledFrameWithSize, 8);
 
 	assertTrue(_frame.getSize() == marshalledFrameSize);
 }
