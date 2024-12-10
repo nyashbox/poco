@@ -4,13 +4,15 @@
 
 #include "Poco/AMQP/Types/Integers.h"
 #include "Poco/AMQP/Types/Strings.h"
-#include "Poco/AMQP/Types/FieldTable.h"
 #include <cstring>
 #include <type_traits>
 
 
 namespace Poco {
 namespace AMQP {
+
+
+class FieldTable;
 
 
 template<typename T>
