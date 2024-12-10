@@ -39,7 +39,7 @@ struct AMQPIntegerTypeTraits
 	static void *write(const T value, void *dest)
 	{
 		const T networkValue = ByteOrder::toNetwork(value);
-		return std::memcpy(dest, &value, sizeof(T));
+		return std::memcpy(dest, &networkValue, sizeof(T));
 	}
 };
 
