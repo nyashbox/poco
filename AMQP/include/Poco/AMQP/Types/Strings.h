@@ -83,8 +83,19 @@ template<typename T>
 inline constexpr bool isAMQPString_v = isAMQPString<T>::value;
 
 
+template<typename T>
+struct AMQPStringTypeTraits 
+{
+	static AMQP::Long size(const T &str)
+	{
+		return str.getBuffer().sizeBytes();
+	};
+};
+
+
 template<>
 struct AMQPTypeTraits<AMQP::ShortStr>
+	: AMQPStringTypeTraits<AMQP::ShortStr>
 {
 	static constexpr AMQP::Octet FIELD_VALUE = 's';
 };
@@ -92,6 +103,7 @@ struct AMQPTypeTraits<AMQP::ShortStr>
 
 template<>
 struct AMQPTypeTraits<AMQP::LongStr>
+	: AMQPStringTypeTraits<AMQP::LongStr>
 {
 	static constexpr AMQP::Octet FIELD_VALUE = 'S';
 };

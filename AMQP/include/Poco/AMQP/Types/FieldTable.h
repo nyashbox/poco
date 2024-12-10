@@ -67,6 +67,11 @@ template<>
 struct AMQPTypeTraits<AMQP::FieldTable>
 {
 	static constexpr AMQP::Octet FIELD_VALUE = 'F';
+
+	static AMQP::Long size(AMQP::FieldTable &table) 
+	{
+		return table.getBuffer().sizeBytes();
+	};
 };
 
 

@@ -41,6 +41,11 @@ struct AMQPIntegerTypeTraits
 		const T networkValue = ByteOrder::toNetwork(value);
 		return std::memcpy(dest, &networkValue, sizeof(T));
 	}
+
+	static AMQP::Long size(T value)
+	{
+		return sizeof(value);
+	};
 };
 
 
