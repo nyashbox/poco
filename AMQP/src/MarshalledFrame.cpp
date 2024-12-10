@@ -46,24 +46,21 @@ MarshalledFrame::~MarshalledFrame()
 void MarshalledFrame::setChannel(const AMQP::Short channel) 
 {
 	AMQP::Octet *channelPtr = &_data[CHANNEL_OFFSET];
-	AMQP::Short convertedChannel = Poco::ByteOrder::toNetwork(channel);
-
-	std::memcpy(channelPtr, &convertedChannel, sizeof(channel));
+	AMQP::AMQPTypeTraits<AMQP::Short>::write(channel, channelPtr);
 }
 
 
 void MarshalledFrame::setType(const AMQP::Octet type) 
 {
-	_data[TYPE_OFFSET] = type;
+	AMQP::Octet *typePtr = &_data[TYPE_OFFSET];
+	AMQP::AMQPTypeTraits<AMQP::Octet>::write(type, typePtr);
 }
 
 
 void MarshalledFrame::setSize(const AMQP::Long size) 
 {
 	AMQP::Octet *sizePtr = &_data[SIZE_OFFSET];
-	AMQP::Long convertedSize = Poco::ByteOrder::toNetwork(size);
-
-	std::memcpy(sizePtr, &convertedSize, sizeof(size));
+	AMQP::AMQPTypeTraits<AMQP::Long>::write(size, sizePtr);
 }
 
 
