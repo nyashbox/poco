@@ -4,6 +4,8 @@
 
 #include "Poco/AMQP/Types/Integers.h"
 #include "Poco/AMQP/Types/Strings.h"
+#include "Poco/AMQP/Types/TypeTraits.h"
+
 
 namespace Poco {
 namespace AMQP {
@@ -16,15 +18,13 @@ class FieldTable final
 		~FieldTable();
 
 		template<typename T>
-		void insert(const AMQP::ShortStr &key, const T value);
+		typename std::enable_if_t<isAMQPType<T>::value, void>
+		insert(const AMQP::ShortStr &key, const T value);
 
 		const Poco::Buffer<AMQP::Octet> &getBuffer(void) const;
 
 	protected:
 	private:
-		template<typename T>
-		void _insert(const AMQP::ShortStr &key, const T value, const AMQP::Octet type);
-
 		Poco::Buffer<AMQP::Octet> _data{0};
 };
 
@@ -50,55 +50,14 @@ inline const Poco::Buffer<AMQP::Octet> &FieldTable::getBuffer() const
 }
 
 
-template<>
-inline void FieldTable::insert(const AMQP::ShortStr &key, const AMQP::Octet value) 
-{
-	_insert(key, value, 'B');
-}
-
-
-template<>
-inline void FieldTable::insert(const AMQP::ShortStr &key, const AMQP::Short value)
-{
-	_insert(key, value, 'u');
-}
-
-
-template<>
-inline void FieldTable::insert(const AMQP::ShortStr &key, const AMQP::Long value)
-{
-	_insert(key, value, 'i');
-}
-
-
-template<>
-inline void FieldTable::insert(const AMQP::ShortStr &key, const AMQP::LongLong value)
-{
-	_insert(key, value, 'l');
-}
-
-
-template<>
-inline void FieldTable::insert(const AMQP::ShortStr &key, const AMQP::ShortStr value)
-{
-	_insert(key, value, 's');
-}
-
-
-template<>
-inline void FieldTable::insert(const AMQP::ShortStr &key, const AMQP::LongStr value)
-{
-	_insert(key, value, 'S');
-}
-
-
 template<typename T>
-inline void FieldTable::_insert(const AMQP::ShortStr &key, const T value, const AMQP::Octet type)
+typename std::enable_if_t<isAMQPType<T>::value, void>
+FieldTable::insert(const AMQP::ShortStr &key, const T value) 
 {
 	_data.append(key.getBuffer());
-	_data.append(type);
+	_data.append(AMQP::AMQPTypeTraits<T>::FIELD_VALUE);
 
-	if constexpr (std::is_unsigned_v<T>)
+	if constexpr (AMQP::isAMQPInteger_v<T>)
 		_data.append(reinterpret_cast<const AMQP::Octet *>(&value), sizeof(T));
 	else
 		_data.append(value.getBuffer());
