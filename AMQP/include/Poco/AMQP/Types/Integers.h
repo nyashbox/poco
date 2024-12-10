@@ -36,7 +36,7 @@ inline constexpr bool isAMQPInteger_v = isAMQPInteger<T>::value;
 template<typename T>
 struct AMQPIntegerTypeTraits 
 {
-	void *write(const T value, void *dest)
+	static void *write(const T value, void *dest)
 	{
 		const T networkValue = ByteOrder::toNetwork(value);
 		return std::memcpy(dest, &value, sizeof(T));
