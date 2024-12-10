@@ -26,7 +26,10 @@ void HeartbeatFrameTest::testFormat()
 {
 	const Octet testFrame[] = 
 	{
-		0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xCE
+		0x08,                   // type:      heartbeat frame 
+		0x00, 0x00,             // channel:   0
+		0x00, 0x00, 0x00, 0x00, // size:      0 bytes
+		0xCE                    // frame end: 0xCE
 	};
 	Poco::Buffer<Octet> expectedFrame { testFrame, sizeof(testFrame) };
 	HeartbeatFrame actualFrame;
