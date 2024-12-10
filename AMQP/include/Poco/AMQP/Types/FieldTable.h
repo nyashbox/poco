@@ -4,7 +4,6 @@
 
 #include "Poco/AMQP/Types/Integers.h"
 #include "Poco/AMQP/Types/Strings.h"
-#include "Poco/AMQP/Types/TypeTraits.h"
 
 
 namespace Poco {
@@ -62,6 +61,20 @@ FieldTable::insert(const AMQP::ShortStr &key, const T value)
 	else
 		_data.append(value.getBuffer());
 }
+
+
+template<>
+struct AMQPTypeTraits<AMQP::FieldTable>
+{
+	static constexpr AMQP::Octet FIELD_VALUE = 'F';
+};
+
+
+template<>
+struct isAMQPType<AMQP::FieldTable>
+	: std::true_type
+{
+};
 
 
 } } // namespace Poco::AMQP

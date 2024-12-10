@@ -70,6 +70,47 @@ const Poco::Buffer<AMQP::Octet> &BaseStr<T>::getBuffer(void) const
 }
 
 
+template<typename T>
+struct isAMQPString
+	: std::disjunction<
+		std::is_same<T, AMQP::ShortStr>,
+		std::is_same<T, AMQP::LongStr>>
+{
+};
+
+
+template<typename T>
+inline constexpr bool isAMQPString_v = isAMQPString<T>::value;
+
+
+template<>
+struct AMQPTypeTraits<AMQP::ShortStr>
+{
+	static constexpr AMQP::Octet FIELD_VALUE = 's';
+};
+
+
+template<>
+struct AMQPTypeTraits<AMQP::LongStr>
+{
+	static constexpr AMQP::Octet FIELD_VALUE = 'S';
+};
+
+
+template<>
+struct isAMQPType<AMQP::ShortStr>
+	: std::true_type 
+{
+};
+
+
+template<>
+struct isAMQPType<AMQP::LongStr>
+	: std::true_type 
+{
+};
+
+
 } } // namespace Poco::AMQP
 
 
