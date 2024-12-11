@@ -20,6 +20,8 @@ public:
 	void testGetType(void);
 	void testGetSize(void);
 
+	void testParameterPack(void);
+
 	void setUp();
 	void tearDown();
 

@@ -1,4 +1,6 @@
 #include "Poco/AMQP/Frames/MarshalledFrame.h"
+#include "Poco/AMQP/Types/Integers.h"
+#include "Poco/AMQP/Types/Strings.h"
 #include "CppUnit/TestCaller.h"
 #include "CppUnit/TestSuite.h"
 #include "MarshalledFrameTest.h"
@@ -119,6 +121,48 @@ void MarshalledFrameTest::tearDown()
 }
 
 
+void MarshalledFrameTest::testParameterPack(void)
+{
+	const Poco::AMQP::Octet frame[] = 
+	{
+		//
+		//	header
+		//
+		0x03,                   // type:      body frame
+		0x00, 0x01,             // channel:   1
+		0x00, 0x00, 0x00, 0x0F, // size:      15 bytes
+		// 
+		//	payload start
+		//
+		0x01,					// AMQP::Octet
+		0x00, 0x01,				// AMQP::Short 
+		0x00, 0x00,	0x00, 0x01, // AMQP::Long 
+		
+		0x00, 0x00,	0x00, 0x00, // AMQP::LongLong 
+		0x00, 0x00,	0x00, 0x01,
+		//
+		//	payload end
+		//
+		0xCE                    // frame end: 0xCE
+	};
+	Poco::Buffer<Poco::AMQP::Octet> expectedFrame{frame, sizeof(frame)};
+
+	Poco::AMQP::MarshalledFrame actualFrame
+	{
+		// header
+		Poco::AMQP::Octet	(0x03),
+		Poco::AMQP::Short	(0x01),
+		// payload
+		Poco::AMQP::Octet	(0x01),
+		Poco::AMQP::Short	(0x01),
+		Poco::AMQP::Long	(0x01),
+		Poco::AMQP::LongLong(0x01),
+	};
+
+	assertTrue(actualFrame.getBuffer() == expectedFrame);
+}
+
+
 CppUnit::Test *MarshalledFrameTest::suite() 
 {
 	CppUnit::TestSuite *pSuite = new CppUnit::TestSuite("MarshalledFrameTest");
@@ -130,6 +174,8 @@ CppUnit::Test *MarshalledFrameTest::suite()
 	CppUnit_addTest(pSuite, MarshalledFrameTest, testGetChannel);
 	CppUnit_addTest(pSuite, MarshalledFrameTest, testGetType);
 	CppUnit_addTest(pSuite, MarshalledFrameTest, testGetSize);
+
+	CppUnit_addTest(pSuite, MarshalledFrameTest, testParameterPack);
 
 	return pSuite;
 }
