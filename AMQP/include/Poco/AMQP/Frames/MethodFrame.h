@@ -9,6 +9,9 @@ namespace Poco {
 namespace AMQP {
 
 
+constexpr AMQP::Octet METHOD_FRAME_TYPE = 0x01;
+
+
 class MethodFrame final : public MarshalledFrame 
 {
 public:
@@ -28,7 +31,7 @@ private:
 
 template<typename... Args, typename>
 inline MethodFrame::MethodFrame(const AMQP::Short classId, const AMQP::Short methodId, Args... arguments)
-	: MarshalledFrame(0x01, 0x00, classId, methodId, arguments...)
+	: MarshalledFrame(METHOD_FRAME_TYPE, 0x00, classId, methodId, arguments...)
 {
 }
 
