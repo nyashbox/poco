@@ -9,6 +9,9 @@ namespace Poco {
 namespace AMQP {
 
 
+constexpr AMQP::Octet HEARTBEAT_FRAME_TYPE = 0x08;
+
+
 class HeartbeatFrame final : public MarshalledFrame 
 {
 public:
@@ -18,6 +21,20 @@ public:
 protected:
 private:
 };
+
+
+//
+// inlines
+//
+inline HeartbeatFrame::HeartbeatFrame() 
+	: MarshalledFrame(HEARTBEAT_FRAME_TYPE, 0, 0, nullptr)
+{
+}
+
+
+inline HeartbeatFrame::~HeartbeatFrame()
+{
+}
 
 
 } } // namespace Poco::AMQP
