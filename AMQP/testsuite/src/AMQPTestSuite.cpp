@@ -2,6 +2,7 @@
 #include "BodyFrameTest.h"
 #include "HeartbeatFrameTest.h"
 #include "MarshalledFrameTest.h"
+#include "MethodFrameTest.h"
 #include "TypesTest.h"
 
 
@@ -13,6 +14,7 @@ CppUnit::Test *AMQPTestSuite::suite()
 	pSuite->addTest(MarshalledFrameTest::suite());
 	pSuite->addTest(BodyFrameTest::suite());
 	pSuite->addTest(HeartbeatFrameTest::suite());
+	pSuite->addTest(MethodFrameTest::suite());
 
 	// types tests
 	pSuite->addTest(TypesTest::suite());
