@@ -1,6 +1,5 @@
 #include "Poco/AMQP/Frames/MarshalledFrame.h"
 #include "Poco/AMQP/Types/Integers.h"
-#include "Poco/ByteOrder.h"
 #include <cstring>
 
 
@@ -26,21 +25,21 @@ MarshalledFrame::MarshalledFrame(AMQP::Long size)
 MarshalledFrame::MarshalledFrame(AMQP::Octet type, AMQP::Short channel,
                                  AMQP::Long size, const AMQP::Octet *payload) 
 {
-  _data.resize(size + HEADER_SIZE + sizeof(FRAME_END));
+	_data.resize(size + HEADER_SIZE + sizeof(FRAME_END));
 
-  // Set frame data
-  setType(type);
-  setChannel(channel);
-  setSize(size);
+	// Set frame data
+	setType(type);
+	setChannel(channel);
+	setSize(size);
 
-  // Frame end
-  _data[size + HEADER_SIZE] = FRAME_END;
+	// Frame end
+	_data[size + HEADER_SIZE] = FRAME_END;
 
-  if (payload)
-  {
-	  Poco::Buffer<AMQP::Octet> payloadBuffer = getPayloadBuffer();
-	  payloadBuffer.assign(payload, size);
-  }
+	if (payload)
+	{
+		Poco::Buffer<AMQP::Octet> payloadBuffer = getPayloadBuffer();
+		payloadBuffer.assign(payload, size);
+	}
 }
 
 
