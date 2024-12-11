@@ -68,6 +68,12 @@ struct AMQPTypeTraits<AMQP::FieldTable>
 {
 	static constexpr AMQP::Octet FIELD_VALUE = 'F';
 
+	static void *write(const AMQP::FieldTable &value, void *dest)
+	{
+		auto size = AMQPStringTypeTraits<AMQP::FieldTable>::size(value);
+		return std::memcpy(dest, value.getBuffer().begin(), size);
+	}
+
 	static AMQP::Long size(AMQP::FieldTable &table) 
 	{
 		return table.getBuffer().sizeBytes();

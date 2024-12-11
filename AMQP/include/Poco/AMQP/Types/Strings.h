@@ -86,6 +86,12 @@ inline constexpr bool isAMQPString_v = isAMQPString<T>::value;
 template<typename T>
 struct AMQPStringTypeTraits 
 {
+	static void *write(const T &value, void *dest)
+	{
+		auto size = AMQPStringTypeTraits<T>::size(value);
+		return std::memcpy(dest, value.getBuffer().begin(), size);
+	};
+
 	static AMQP::Long size(const T &str)
 	{
 		return str.getBuffer().sizeBytes();
