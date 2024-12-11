@@ -14,7 +14,7 @@ class MarshalledFrame
 {
 public:
 	MarshalledFrame(AMQP::Long size = 0);
-	MarshalledFrame(AMQP::Octet type, AMQP::Short channel, AMQP::Long size);
+	MarshalledFrame(AMQP::Octet type, AMQP::Short channel, AMQP::Long size, const AMQP::Octet *payload);
 
 	~MarshalledFrame();
 

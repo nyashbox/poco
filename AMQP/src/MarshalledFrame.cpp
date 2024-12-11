@@ -18,13 +18,13 @@ constexpr AMQP::Octet FRAME_END      = 0xCE;
 
 
 MarshalledFrame::MarshalledFrame(AMQP::Long size)
-    : MarshalledFrame(0x00, 0, size) 
+    : MarshalledFrame(0x00, 0, size, nullptr) 
 {
 }
 
 
 MarshalledFrame::MarshalledFrame(AMQP::Octet type, AMQP::Short channel,
-                                 AMQP::Long size) 
+                                 AMQP::Long size, const AMQP::Octet *payload) 
 {
   _data.resize(size + HEADER_SIZE + sizeof(FRAME_END));
 
@@ -35,6 +35,12 @@ MarshalledFrame::MarshalledFrame(AMQP::Octet type, AMQP::Short channel,
 
   // Frame end
   _data[size + HEADER_SIZE] = FRAME_END;
+
+  if (payload)
+  {
+	  Poco::Buffer<AMQP::Octet> payloadBuffer = getPayloadBuffer();
+	  payloadBuffer.assign(payload, size);
+  }
 }
 
 

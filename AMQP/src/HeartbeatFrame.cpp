@@ -9,7 +9,7 @@ constexpr AMQP::Octet HEARTBEAT_FRAME = 0x08;
 
 
 HeartbeatFrame::HeartbeatFrame() 
-	: MarshalledFrame(HEARTBEAT_FRAME, 0, 0)
+	: MarshalledFrame(HEARTBEAT_FRAME, 0, 0, nullptr)
 {
 }
 
