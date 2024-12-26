@@ -1,45 +1,46 @@
-#include "Poco/AMQP/Networking/FrameIO.h"
+#include "Poco/AMQP/Networking/Connection.h"
 
 
 namespace Poco {
 namespace AMQP {
 
 
-FrameIO::FrameIO() : _socket()
+Connection::Connection() 
+	: _socket()
 {
 }
 
 
-FrameIO::FrameIO(const std::string &host, const Poco::UInt16 port)
+Connection::Connection(const std::string &host, const Poco::UInt16 port)
 {
 	connect(host, port);
 }
 
 
-FrameIO::~FrameIO() 
+Connection::~Connection() 
 {
 }
 
 
-void FrameIO::connect(const std::string &host, const Poco::UInt16 port) 
+void Connection::connect(const std::string &host, const Poco::UInt16 port) 
 {
 	_socket.connect({host, port});
 }
 
 
-void FrameIO::connect(const Net::SocketAddress &addr)
+void Connection::connect(const Net::SocketAddress &addr)
 {
 	_socket.connect(addr);
 }
 
 
-void FrameIO::disconnect() 
+void Connection::disconnect() 
 {
 	_socket.close();
 }
 
 
-void FrameIO::write(const MarshalledFrame &frame) 
+void Connection::write(const MarshalledFrame &frame) 
 {
 	Poco::Buffer<AMQP::Octet> frameBuffer = frame.getBuffer();
 
@@ -47,7 +48,7 @@ void FrameIO::write(const MarshalledFrame &frame)
 }
 
 
-void FrameIO::negotiate(void)
+void Connection::negotiate(void)
 {
 	const char protocolHeader[] = 
 	{
@@ -58,7 +59,7 @@ void FrameIO::negotiate(void)
 }
 
 
-Poco::Buffer<AMQP::Octet> FrameIO::read(void) 
+Poco::Buffer<AMQP::Octet> Connection::read(void) 
 {
 	size_t bytes = _socket.available();
 	Poco::Buffer<AMQP::Octet> buf{bytes};
@@ -70,13 +71,13 @@ Poco::Buffer<AMQP::Octet> FrameIO::read(void)
 }
 
 
-const Net::SocketAddress FrameIO::address(void) const 
+const Net::SocketAddress Connection::address(void) const 
 {
 	return _socket.address();
 }
 
 
-const Net::StreamSocket &FrameIO::socket(void) const
+const Net::StreamSocket &Connection::socket(void) const
 {
 	return _socket;
 }

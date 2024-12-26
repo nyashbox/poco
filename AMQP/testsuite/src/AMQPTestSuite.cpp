@@ -3,7 +3,7 @@
 #include "HeartbeatFrameTest.h"
 #include "MarshalledFrameTest.h"
 #include "MethodFrameTest.h"
-#include "FrameIOTest.h"
+#include "ConnectionTest.h"
 #include "TypesTest.h"
 
 
@@ -21,7 +21,7 @@ CppUnit::Test *AMQPTestSuite::suite()
 	pSuite->addTest(TypesTest::suite());
 
 	// networking tests
-	pSuite->addTest(FrameIOTest::suite());
+	pSuite->addTest(ConnectionTest::suite());
 
 	return pSuite;
 }

@@ -1,15 +1,15 @@
-#ifndef FrameIOTest_INCLUDED
-#define FrameIOTest_INCLUDED
+#ifndef ConnectionTest_INCLUDED
+#define ConnectionTest_INCLUDED
 
 
 #include "CppUnit/TestCase.h"
 
 
-class FrameIOTest : public CppUnit::TestCase
+class ConnectionTest : public CppUnit::TestCase
 {
 public:
-	FrameIOTest(const std::string &name);
-	~FrameIOTest();
+	ConnectionTest(const std::string &name);
+	~ConnectionTest();
 
 	void testConnect();
 	void testNegotiate();
@@ -27,4 +27,4 @@ private:
 };
 
 
-#endif // FrameIOTest_INCLUDED
+#endif // ConnectionTest_INCLUDED

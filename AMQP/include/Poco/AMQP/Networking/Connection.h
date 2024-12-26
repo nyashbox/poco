@@ -1,23 +1,22 @@
-#ifndef AMQP_Networking_FrameIO_INCLUDED
-#define AMQP_Networking_FrameIO_INCLUDED
+#ifndef AMQP_Networking_Channel_INCLUDED
+#define AMQP_Networking_Channel_INCLUDED
 
 
 #include "Poco/AMQP/Frames/MarshalledFrame.h"
-#include "Poco/Net/SocketStream.h"
-#include "Poco/Net/SocketStream.h"
+#include "Poco/Net/StreamSocket.h"
 
 
 namespace Poco {
 namespace AMQP {
 
 
-class FrameIO final
+class Connection final
 {
 	public:
-		FrameIO();
-		FrameIO(const std::string &host, const Poco::UInt16 port);
+		Connection();
+		Connection(const std::string &host, const Poco::UInt16 port);
 
-		~FrameIO();
+		~Connection();
 
 		void connect(const std::string &host, const Poco::UInt16 port);
 		void connect(const Net::SocketAddress &addr);
@@ -42,4 +41,4 @@ class FrameIO final
 } } // namespace Poco::AMQP 
 
 
-#endif // AMQP_Networking_FrameIO_INCLUDED
+#endif // AMQP_Networking_Channel_INCLUDED

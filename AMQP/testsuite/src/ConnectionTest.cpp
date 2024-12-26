@@ -1,7 +1,7 @@
-#include "Poco/AMQP/Networking/FrameIO.h"
+#include "Poco/AMQP/Networking/Connection.h"
 #include "CppUnit/TestCaller.h"
 #include "CppUnit/TestSuite.h"
-#include "FrameIOTest.h"
+#include "ConnectionTest.h"
 #include "Poco/AMQP/Frames/HeartbeatFrame.h"
 #include "Poco/Net/ServerSocket.h"
 #include "Poco/Net/StreamSocket.h"
@@ -16,24 +16,24 @@ const Poco::AMQP::Octet heartbeatFrame[] =
 };
 
 
-FrameIOTest::FrameIOTest(const std::string &name)
+ConnectionTest::ConnectionTest(const std::string &name)
 	: CppUnit::TestCase(name)
 {
 }
 
 
-FrameIOTest::~FrameIOTest() 
+ConnectionTest::~ConnectionTest() 
 {
 }
 
 
-void FrameIOTest::testConnect()
+void ConnectionTest::testConnect()
 {
 	Poco::Net::ServerSocket server(55555);
 
 	// correct connection MUST NOT throw
 	try {
-		Poco::AMQP::FrameIO io("127.0.0.1", 55555);
+		Poco::AMQP::Connection io("127.0.0.1", 55555);
 	}
 	catch (...) 
 	{
@@ -42,7 +42,7 @@ void FrameIOTest::testConnect()
 
 	// incorrect connection MUST throw
 	try {
-		Poco::AMQP::FrameIO io("127.0.0.1", 1);
+		Poco::AMQP::Connection io("127.0.0.1", 1);
 
 		assertTrue(false);
 	}
@@ -54,7 +54,7 @@ void FrameIOTest::testConnect()
 }
 
 
-void FrameIOTest::testNegotiate()
+void ConnectionTest::testNegotiate()
 {
 	const char protocolHeader[] = {
 		'A', 'M', 'Q', 'P', 0, 0, 9, 1
@@ -66,7 +66,7 @@ void FrameIOTest::testNegotiate()
 	};
 
 	Poco::Net::ServerSocket socket(55555);
-	Poco::AMQP::FrameIO io("127.0.0.1", 55555);
+	Poco::AMQP::Connection io("127.0.0.1", 55555);
 
 	Poco::Net::StreamSocket client = socket.acceptConnection();
 
@@ -84,7 +84,7 @@ void FrameIOTest::testNegotiate()
 }
 
 
-void FrameIOTest::testWrite()
+void ConnectionTest::testWrite()
 {
 	Poco::Buffer<Poco::AMQP::Octet> expectedFrame 
 	{
@@ -98,7 +98,7 @@ void FrameIOTest::testWrite()
 
 	Poco::Net::ServerSocket server{55555};
 
-	Poco::AMQP::FrameIO io{"127.0.0.1", 55555};
+	Poco::AMQP::Connection io{"127.0.0.1", 55555};
 	Poco::Net::StreamSocket client = server.acceptConnection();
 
 	io.write(Poco::AMQP::HeartbeatFrame());
@@ -113,7 +113,7 @@ void FrameIOTest::testWrite()
 }
 
 
-void FrameIOTest::testRead()
+void ConnectionTest::testRead()
 {
 	Poco::Buffer<Poco::AMQP::Octet> expectedFrame 
 	{ 
@@ -122,7 +122,7 @@ void FrameIOTest::testRead()
 
 	Poco::Net::ServerSocket server{55555};
 
-	Poco::AMQP::FrameIO io{"127.0.0.1", 55555};
+	Poco::AMQP::Connection io{"127.0.0.1", 55555};
 	Poco::Net::StreamSocket client = server.acceptConnection();
 
 	client.sendBytes(heartbeatFrame, sizeof(heartbeatFrame));
@@ -136,25 +136,25 @@ void FrameIOTest::testRead()
 }
 
 
-void FrameIOTest::setUp()
+void ConnectionTest::setUp()
 {
 }
 
 
-void FrameIOTest::tearDown()
+void ConnectionTest::tearDown()
 {
 }
 
 
-CppUnit::Test *FrameIOTest::suite()
+CppUnit::Test *ConnectionTest::suite()
 {
 	CppUnit::TestSuite *pSuite = new CppUnit::TestSuite("FrameIOTest");
 
-	CppUnit_addTest(pSuite, FrameIOTest, testConnect);
-	CppUnit_addTest(pSuite, FrameIOTest, testNegotiate);
+	CppUnit_addTest(pSuite, ConnectionTest, testConnect);
+	CppUnit_addTest(pSuite, ConnectionTest, testNegotiate);
 
-	CppUnit_addTest(pSuite, FrameIOTest, testWrite);
-	CppUnit_addTest(pSuite, FrameIOTest, testRead);
+	CppUnit_addTest(pSuite, ConnectionTest, testWrite);
+	CppUnit_addTest(pSuite, ConnectionTest, testRead);
 
 	return pSuite;
 }
