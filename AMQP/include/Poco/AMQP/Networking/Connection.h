@@ -1,5 +1,5 @@
-#ifndef AMQP_Networking_Channel_INCLUDED
-#define AMQP_Networking_Channel_INCLUDED
+#ifndef AMQP_Networking_Connection_INCLUDED
+#define AMQP_Networking_Connection_INCLUDED
 
 
 #include "Poco/AMQP/Frames/MarshalledFrame.h"
@@ -41,4 +41,4 @@ class Connection final
 } } // namespace Poco::AMQP 
 
 
-#endif // AMQP_Networking_Channel_INCLUDED
+#endif // AMQP_Networking_Connection_INCLUDED
