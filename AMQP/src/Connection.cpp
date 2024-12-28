@@ -59,15 +59,20 @@ void Connection::negotiate(void)
 }
 
 
-Poco::Buffer<AMQP::Octet> Connection::read(void) 
+Poco::Buffer<AMQP::Octet> Connection::read() 
 {
-	size_t bytes = _socket.available();
-	Poco::Buffer<AMQP::Octet> buf{bytes};
+	if (_socket.poll({5, 0}, Net::Socket::SELECT_READ))
+	{
+		size_t bytes = _socket.available();
+		Poco::Buffer<AMQP::Octet> buf{bytes};
 
-	// read data from the socket
-	_socket.receiveBytes(buf.begin(), bytes);
+		// read data from the socket
+		_socket.receiveBytes(buf.begin(), bytes);
 
-	return buf;
+		return buf;
+	}
+
+	throw Exception("Socket timeout!");
 }
 
 
